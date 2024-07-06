@@ -1,0 +1,9 @@
+.env
+*.gz
+venv/
+.idea/
+nginx/ssl/*
+!nginx/ssl/README.*
+ignore/
+.vscode/
+__pycache__/

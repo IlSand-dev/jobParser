@@ -1,0 +1,55 @@
+services:
+
+  backend:
+    build:
+      context: backend
+    ports:
+      - 8000:8000
+    env_file:
+      .env
+    environment:
+      DB_HOST: database
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - docker_network
+
+  frontend:
+    build:
+      context: frontend
+      network: host
+    depends_on:
+      - backend
+    ports:
+      - 80:3000
+    env_file:
+      frontend/.env
+    networks:
+      - docker_network
+
+
+  database:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 8
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    networks:
+      - docker_network
+volumes:
+  database_data:
+
+networks:
+  docker_network:
+    driver: bridge
