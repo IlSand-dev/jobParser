@@ -42,9 +42,9 @@ export default function VacancyComponent(params: {id: number}){
             salary = "Не указана"
         } else {
             if (vacancy.salary.minimal == null)
-                salary = "До " + vacancy.salary.maximum.toLocaleString("ru")
+                salary = "До " + vacancy!.salary.maximum.toLocaleString("ru")
             else if (vacancy.salary.maximum == null)
-                salary = "От " + vacancy.salary.minimal.toLocaleString("ru")
+                salary = "От " + vacancy!.salary.minimal.toLocaleString("ru")
             else
                 salary = vacancy.salary.minimal.toLocaleString("ru") + "-" + vacancy.salary.maximum.toLocaleString("ru")
             salary += vacancy.salary.currency 
@@ -55,7 +55,7 @@ export default function VacancyComponent(params: {id: number}){
             experience = "Не требуется"
         } else {
             if (vacancy.experience.minimal == null)
-                experience = "Меньше " + vacancy.experience.maximum + (vacancy.experience.maximum>1?" лет":" года")
+                experience = "Меньше " + vacancy.experience.maximum + (vacancy!.experience.maximum>1?" лет":" года")
             else if (vacancy.experience.maximum == null)
                 experience = "Больше " + vacancy.experience.minimal + (vacancy.experience.minimal>1?" лет":" года")
             else
